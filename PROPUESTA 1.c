@@ -28,3 +28,28 @@ void guardarOrdenes() {
 
     fclose(archivo);
 }
+
+void cargarOrdenes() {
+    FILE *archivo = fopen(FILENAME, "r");
+    if (archivo == NULL) {
+        printf("No se encontró el archivo. Se creará uno nuevo al guardar las órdenes.\n");
+        return;
+    }
+
+    int numero;
+    char fecha[11];
+    char tipoTrabajo[50];
+    float costoServicio;
+
+    while (fscanf(archivo, "%d %s %s %f", &numero, fecha, tipoTrabajo, &costoServicio) == 4) {
+        struct OrdenTrabajo orden;
+        orden.numero = numero;
+        strcpy(orden.fecha, fecha);
+        strcpy(orden.tipoTrabajo, tipoTrabajo);
+        orden.costoServicio = costoServicio;
+
+        ordenes[numOrdenes++] = orden;
+    }
+
+    fclose(archivo);
+}
