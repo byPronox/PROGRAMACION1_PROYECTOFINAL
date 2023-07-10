@@ -75,3 +75,15 @@ void agregarOrden() {
     printf("Orden de trabajo agregada con éxito.\n");
     guardarOrdenes();
 }
+
+void mostrarOrdenes() {
+    if (numOrdenes == 0) {
+        printf("No hay órdenes de trabajo registradas.\n");
+        return;
+    }
+
+    printf("Número\tFecha\t\tTipo de Trabajo\t\tCosto de Servicio\n");
+    for (int i = 0; i < numOrdenes; i++) {
+        printf("%d\t%s\t%s\t\t%.2f\n", ordenes[i].numero, ordenes[i].fecha, ordenes[i].tipoTrabajo, ordenes[i].costoServicio);
+    }
+}
