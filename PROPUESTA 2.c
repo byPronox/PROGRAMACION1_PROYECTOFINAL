@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
+#include <time.h>//Creacion de las 4 librerias necesarias para el codigo
 
-struct OrdenTrabajo
+struct OrdenTrabajo//Struct para almacenar los datos de cada orden
 {
     int numeroOrden;
     char tipoEquipo[50];
@@ -20,10 +20,10 @@ struct OrdenTrabajo leerOrdenTrabajo(FILE *archivo)
     return orden;
 }
 
-struct OrdenTrabajo buscarOrdenTrabajo(FILE *archivo, int numeroOrden)
+struct OrdenTrabajo buscarOrdenTrabajo(FILE *archivo, int numeroOrden)//Creacion de la orden de trabajo
 {
     struct OrdenTrabajo orden;
-    while (!feof(archivo))
+    while (!feof(archivo))//Lee la orden del trabajo y la almacena con if y while
     {
         orden = leerOrdenTrabajo(archivo);
         if (orden.numeroOrden == numeroOrden)
@@ -39,13 +39,13 @@ void escribirOrdenTrabajo(FILE *archivo, struct OrdenTrabajo orden)
 {
     fprintf(archivo, "%d %s %s %.2f %s\n",
             orden.numeroOrden, orden.tipoEquipo, orden.servicio, orden.costo, orden.fechaCreacion);
-}
+}//Si la opcion del usuario es escribir la orden se crea con un void y la busca dentro del archivo plano con la ayuda de los punteros
 
-void actualizarOrdenTrabajo(FILE *archivo, struct OrdenTrabajo orden)
+void actualizarOrdenTrabajo(FILE *archivo, struct OrdenTrabajo orden)//Si desea que se edite una orden se crea con un void y la busca dentro del archivo plano con la yuda de los punteros
 {
     FILE *archivoTemporal = fopen("temp.txt", "w");
     struct OrdenTrabajo ordenActual;
-    while (!feof(archivo))
+    while (!feof(archivo))//La busca una a una con while y descarta cada caso con if o else
     {
         ordenActual = leerOrdenTrabajo(archivo);
         if (ordenActual.numeroOrden == orden.numeroOrden)
@@ -60,15 +60,15 @@ void actualizarOrdenTrabajo(FILE *archivo, struct OrdenTrabajo orden)
     fclose(archivo);
     fclose(archivoTemporal);
     remove("datos.txt");
-    rename("temp.txt", "datos.txt");
+    rename("temp.txt", "datos.txt");//Cierra el archivo plano
 }
 
-void eliminarOrdenTrabajo(FILE *archivo, int numeroOrden)
+void eliminarOrdenTrabajo(FILE *archivo, int numeroOrden)//Si la opcion es eliminar una orden se crea un void con ayuda de los punteros para que busque en el archivo plano
 {
     FILE *archivoTemporal = fopen("temp.txt", "w");
     struct OrdenTrabajo orden;
     int eliminado = 0;
-    while (!feof(archivo))
+    while (!feof(archivo))//Lo busca con while con las condiciones de if o else para ver se encuentra, si no tira que no exste la orden
     {
         orden = leerOrdenTrabajo(archivo);
         if (orden.numeroOrden != numeroOrden)
@@ -95,7 +95,7 @@ void eliminarOrdenTrabajo(FILE *archivo, int numeroOrden)
     }
 }
 
-void mostrarOrdenTrabajo(struct OrdenTrabajo orden)
+void mostrarOrdenTrabajo(struct OrdenTrabajo orden)//Creacion de void para dentro de ordentrabajo pra imprimir cada dato dentro de la terminal si lo desea el usuario
 {
     printf("Numero de orden: %d\n", orden.numeroOrden);
     printf("Tipo de equipo: %s\n", orden.tipoEquipo);
@@ -104,7 +104,7 @@ void mostrarOrdenTrabajo(struct OrdenTrabajo orden)
     printf("Fecha de creacion: %s\n", orden.fechaCreacion);
 }
 
-void obtenerFechaHoraActual(char fechaHora[])
+void obtenerFechaHoraActual(char fechaHora[])//Se obtiene la hora dentro de fechahora con ayuda de void y strftme
 {
     time_t tiempoActual = time(NULL);
     struct tm *tiempoLocal = localtime(&tiempoActual);
@@ -124,7 +124,7 @@ int main()
         }
     }
 
-    fclose(archivo);
+    fclose(archivo);//Se abre el archivo plano
 
     archivo = fopen("datos.txt", "a+");
     if (archivo == NULL)
@@ -133,7 +133,7 @@ int main()
         return 1;
     }
 
-    int opcion;
+    int opcion;//Creacion de las opciones del programa
     do
     {
         printf("\nMENU:\n");
@@ -145,7 +145,7 @@ int main()
         printf("Ingrese el número de la opción deseada: ");
         scanf("%d", &opcion);
 
-        switch (opcion)
+        switch (opcion)//Swich para que aga la accion que desee el usuario de 1 a 5
         {
         case 1:
         {
@@ -251,8 +251,8 @@ int main()
             printf("No se pudo abrir o crear el archivo datos.txt.\n");
             return 1;
         }
-    } while (opcion != 5);
+    } while (opcion != 5);//Se repite hasta que ponga una opcion diferente de 5 que es salir
 
-    fclose(archivo);
+    fclose(archivo);//Cierra el archivo
     return 0;
 }
