@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+//Definidas las 3 librerias nesesarias
 #define MAX_ORDERS 100
 #define FILENAME "ordenes.txt"
-
-struct OrdenTrabajo {
+//Definicion de las 2 constantes del progrma
+struct OrdenTrabajo {//Struct para gurdad todos los datos
     int numero;
     char fecha[11];
     char tipoTrabajo[50];
@@ -14,7 +14,7 @@ struct OrdenTrabajo {
 
 struct OrdenTrabajo ordenes[MAX_ORDERS];
 int numOrdenes = 0;
-
+//Abrimos el archivo plano con fopen y imprimimos todos los datos ingresados con printf
 void guardarOrdenes() {
     FILE *archivo = fopen(FILENAME, "w");
     if (archivo == NULL) {
@@ -26,9 +26,9 @@ void guardarOrdenes() {
         fprintf(archivo, "%d %s %s %.2f\n", ordenes[i].numero, ordenes[i].fecha, ordenes[i].tipoTrabajo, ordenes[i].costoServicio);
     }
 
-    fclose(archivo);
+    fclose(archivo);//Se cierra el .txt
 }
-
+//Creacion de la deteccion de los datos del archivo plano
 void cargarOrdenes() {
     FILE *archivo = fopen(FILENAME, "r");
     if (archivo == NULL) {
@@ -41,7 +41,7 @@ void cargarOrdenes() {
     char tipoTrabajo[50];
     float costoServicio;
 
-    while (fscanf(archivo, "%d %s %s %f", &numero, fecha, tipoTrabajo, &costoServicio) == 4) {
+    while (fscanf(archivo, "%d %s %s %f", &numero, fecha, tipoTrabajo, &costoServicio) == 4) {//Se escanea la orden
         struct OrdenTrabajo orden;
         orden.numero = numero;
         strcpy(orden.fecha, fecha);
@@ -51,16 +51,16 @@ void cargarOrdenes() {
         ordenes[numOrdenes++] = orden;
     }
 
-    fclose(archivo);
+    fclose(archivo);//Se cierra el .txt
 }
-
+//Si la opcion es agregar la orden se crea un void donde:
 void agregarOrden() {
     if (numOrdenes == MAX_ORDERS) {
-        printf("Error: No se pueden agregar más órdenes de trabajo.\n");
+        printf("Error: No se pueden agregar más órdenes de trabajo.\n");//Si se alcanza el maximo de oredenes no se almacenan
         return;
     }
 
-    struct OrdenTrabajo nuevaOrden;
+    struct OrdenTrabajo nuevaOrden;//Se pregunta al usurio con printf cada dato
     printf("Número de orden: ");
     scanf("%d", &nuevaOrden.numero);
     printf("Fecha (YYYY-MM-DD): ");
@@ -75,30 +75,30 @@ void agregarOrden() {
     printf("Orden de trabajo agregada con éxito.\n");
     guardarOrdenes();
 }
-
+//Si desea mostrar las ordenes se las crea con void:
 void mostrarOrdenes() {
     if (numOrdenes == 0) {
-        printf("No hay órdenes de trabajo registradas.\n");
+        printf("No hay órdenes de trabajo registradas.\n");//Si no existen ordenes osea == 0 retira que no hay
         return;
     }
 
-    printf("Número\tFecha\t\tTipo de Trabajo\t\tCosto de Servicio\n");
+    printf("Número\tFecha\t\tTipo de Trabajo\t\tCosto de Servicio\n"); //Imprime todos los datos de cada orden del archivo .txt
     for (int i = 0; i < numOrdenes; i++) {
         printf("%d\t%s\t%s\t\t%.2f\n", ordenes[i].numero, ordenes[i].fecha, ordenes[i].tipoTrabajo, ordenes[i].costoServicio);
     }
 }
-
+// Si desea editar la orden el usurio de crea otro void con:
 void editarOrden() {
-    if (numOrdenes == 0) {
+    if (numOrdenes == 0) {//Si no existen ordenes creadas retira que no hay
         printf("No hay órdenes de trabajo registradas.\n");
         return;
     }
 
-    int numero;
+    int numero;//Solicita el numero de la orden y lo escanea con scanf
     printf("Ingrese el número de la orden de trabajo que desea editar: ");
     scanf("%d", &numero);
 
-    int indice = -1;
+    int indice = -1;//Busca el numero de la orden solicitada con un for
     for (int i = 0; i < numOrdenes; i++) {
         if (ordenes[i].numero == numero) {
             indice = i;
@@ -106,12 +106,12 @@ void editarOrden() {
         }
     }
 
-    if (indice == -1) {
+    if (indice == -1) {//Si no hay la orden ingresada retira un error
         printf("Error: Número de orden de trabajo inválido.\n");
         return;
     }
 
-    struct OrdenTrabajo *orden = &ordenes[indice];
+    struct OrdenTrabajo *orden = &ordenes[indice];//Imprime cada opcion para que el usuario las edite
 
     printf("Fecha (YYYY-MM-DD) [%s]: ", orden->fecha);
     scanf("%s", orden->fecha);
@@ -123,18 +123,18 @@ void editarOrden() {
     printf("Orden de trabajo actualizada con éxito.\n");
     guardarOrdenes();
 }
-
+//Si desea borrar una orden se crea un void con:
 void borrarOrden() {
     if (numOrdenes == 0) {
-        printf("No hay órdenes de trabajo registradas.\n");
+        printf("No hay órdenes de trabajo registradas.\n");//Si el numero de las ordenes es 0 retorna que no hay
         return;
     }
 
     int numero;
-    printf("Ingrese el número de la orden de trabajo que desea borrar: ");
+    printf("Ingrese el número de la orden de trabajo que desea borrar: ");//Se escanea la orden que desea borrar
     scanf("%d", &numero);
 
-    int indice = -1;
+    int indice = -1;//Escanea al documento plano para la orden solicitada con un for
     for (int i = 0; i < numOrdenes; i++) {
         if (ordenes[i].numero == numero) {
             indice = i;
@@ -142,12 +142,12 @@ void borrarOrden() {
         }
     }
 
-    if (indice == -1) {
+    if (indice == -1) {//Si no existe se retorna que es invalido
         printf("Error: Número de orden de trabajo inválido.\n");
         return;
     }
 
-    for (int i = indice; i < numOrdenes - 1; i++) {
+    for (int i = indice; i < numOrdenes - 1; i++) {//Se busca la orden para borrarla con un for y numordenes
         ordenes[i] = ordenes[i + 1];
     }
 
@@ -162,7 +162,7 @@ int main() {
 
     int opcion;
 
-    while (1) {
+    while (1) {//Se crea un while con swich para el menu dentro del main para la terminal del programa
         printf("\n--- Sistema de Órdenes de Trabajo ---\n");
         printf("1. Agregar orden de trabajo\n");
         printf("2. Mostrar órdenes de trabajo\n");
