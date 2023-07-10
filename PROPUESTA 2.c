@@ -55,3 +55,29 @@ void actualizarOrdenTrabajo(FILE* archivo, struct OrdenTrabajo orden) {
     remove("datos.txt");
     rename("temp.txt", "datos.txt");
 }
+
+void eliminarOrdenTrabajo(FILE* archivo, int numeroOrden) {
+    FILE* archivoTemporal = fopen("temp.txt", "w");
+    struct OrdenTrabajo orden;
+    int eliminado = 0;
+    while (!feof(archivo)) {
+        orden = leerOrdenTrabajo(archivo);
+        if (orden.numeroOrden != numeroOrden) {
+            escribirOrdenTrabajo(archivoTemporal, orden);
+        } else {
+            eliminado = 1;
+        }
+    }
+    fclose(archivo);
+    fclose(archivoTemporal);
+    remove("datos.txt");
+    rename("temp.txt", "datos.txt");
+
+ 
+
+    if (eliminado) {
+        printf("Orden de trabajo eliminada correctamente.\n");
+    } else {
+        printf("No se encontró la orden de trabajo con el número %d.\n", numeroOrden);
+    }
+}
