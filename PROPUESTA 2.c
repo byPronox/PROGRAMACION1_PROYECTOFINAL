@@ -81,3 +81,19 @@ void eliminarOrdenTrabajo(FILE* archivo, int numeroOrden) {
         printf("No se encontró la orden de trabajo con el número %d.\n", numeroOrden);
     }
 }
+
+void mostrarOrdenTrabajo(struct OrdenTrabajo orden) {
+    printf("Numero de orden: %d\n", orden.numeroOrden);
+    printf("Tipo de equipo: %s\n", orden.tipoEquipo);
+    printf("Servicio: %s\n", orden.servicio);
+    printf("Costo: %.2f\n", orden.costo);
+    printf("Fecha de creacion: %s\n", orden.fechaCreacion);
+}
+
+void obtenerFechaHoraActual(char fechaHora[]) {
+    time_t tiempoActual = time(NULL);
+    struct tm* tiempoLocal = localtime(&tiempoActual);
+    strftime(fechaHora, 20, "%d/%m/%Y %H:%M:%S", tiempoLocal);
+}
+
+
