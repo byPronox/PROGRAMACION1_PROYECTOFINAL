@@ -123,3 +123,36 @@ void editarOrden() {
     printf("Orden de trabajo actualizada con éxito.\n");
     guardarOrdenes();
 }
+
+void borrarOrden() {
+    if (numOrdenes == 0) {
+        printf("No hay órdenes de trabajo registradas.\n");
+        return;
+    }
+
+    int numero;
+    printf("Ingrese el número de la orden de trabajo que desea borrar: ");
+    scanf("%d", &numero);
+
+    int indice = -1;
+    for (int i = 0; i < numOrdenes; i++) {
+        if (ordenes[i].numero == numero) {
+            indice = i;
+            break;
+        }
+    }
+
+    if (indice == -1) {
+        printf("Error: Número de orden de trabajo inválido.\n");
+        return;
+    }
+
+    for (int i = indice; i < numOrdenes - 1; i++) {
+        ordenes[i] = ordenes[i + 1];
+    }
+
+    numOrdenes--;
+
+    printf("Orden de trabajo borrada con éxito.\n");
+    guardarOrdenes();
+}
