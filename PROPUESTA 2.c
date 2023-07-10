@@ -13,3 +13,21 @@ struct OrdenTrabajo {
     char fechaCreacion[20];
 };
 
+struct OrdenTrabajo leerOrdenTrabajo(FILE* archivo) {
+    struct OrdenTrabajo orden;
+    fscanf(archivo, "%d %s %s %f %s",
+&orden.numeroOrden, orden.tipoEquipo, orden.servicio, &orden.costo, orden.fechaCreacion);
+    return orden;
+}
+
+struct OrdenTrabajo buscarOrdenTrabajo(FILE* archivo, int numeroOrden) {
+    struct OrdenTrabajo orden;
+    while (!feof(archivo)) {
+        orden = leerOrdenTrabajo(archivo);
+        if (orden.numeroOrden == numeroOrden) {
+            return orden;
+        }
+    }
+    orden.numeroOrden = -1;
+    return orden;
+}
