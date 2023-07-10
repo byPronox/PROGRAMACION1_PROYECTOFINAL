@@ -156,3 +156,44 @@ void borrarOrden() {
     printf("Orden de trabajo borrada con éxito.\n");
     guardarOrdenes();
 }
+
+int main() {
+    cargarOrdenes();
+
+    int opcion;
+
+    while (1) {
+        printf("\n--- Sistema de Órdenes de Trabajo ---\n");
+        printf("1. Agregar orden de trabajo\n");
+        printf("2. Mostrar órdenes de trabajo\n");
+        printf("3. Editar orden de trabajo\n");
+        printf("4. Borrar orden de trabajo\n");
+        printf("5. Guardar cambios y salir\n");
+        printf("Ingrese el número de opción: ");
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+            case 1:
+                agregarOrden();
+                break;
+            case 2:
+                mostrarOrdenes();
+                break;
+            case 3:
+                editarOrden();
+                break;
+            case 4:
+                borrarOrden();
+                break;
+            case 5:
+                printf("Guardando cambios y saliendo del programa...\n");
+                guardarOrdenes();
+                exit(0);
+            default:
+                printf("Opción inválida. Intente nuevamente.\n");
+                break;
+        }
+    }
+
+    return 0;
+}
