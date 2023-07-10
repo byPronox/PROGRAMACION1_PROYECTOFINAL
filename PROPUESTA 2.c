@@ -31,3 +31,27 @@ struct OrdenTrabajo buscarOrdenTrabajo(FILE* archivo, int numeroOrden) {
     orden.numeroOrden = -1;
     return orden;
 }
+
+void escribirOrdenTrabajo(FILE* archivo, struct OrdenTrabajo orden) {
+    fprintf(archivo, "%d %s %s %.2f %s\n",
+            orden.numeroOrden, orden.tipoEquipo, orden.servicio, orden.costo, orden.fechaCreacion);
+}
+
+ 
+
+void actualizarOrdenTrabajo(FILE* archivo, struct OrdenTrabajo orden) {
+    FILE* archivoTemporal = fopen("temp.txt", "w");
+    struct OrdenTrabajo ordenActual;
+    while (!feof(archivo)) {
+        ordenActual = leerOrdenTrabajo(archivo);
+        if (ordenActual.numeroOrden == orden.numeroOrden) {
+            escribirOrdenTrabajo(archivoTemporal, orden);
+        } else {
+            escribirOrdenTrabajo(archivoTemporal, ordenActual);
+        }
+    }
+    fclose(archivo);
+    fclose(archivoTemporal);
+    remove("datos.txt");
+    rename("temp.txt", "datos.txt");
+}
