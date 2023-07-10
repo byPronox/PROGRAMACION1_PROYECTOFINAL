@@ -87,3 +87,39 @@ void mostrarOrdenes() {
         printf("%d\t%s\t%s\t\t%.2f\n", ordenes[i].numero, ordenes[i].fecha, ordenes[i].tipoTrabajo, ordenes[i].costoServicio);
     }
 }
+
+void editarOrden() {
+    if (numOrdenes == 0) {
+        printf("No hay órdenes de trabajo registradas.\n");
+        return;
+    }
+
+    int numero;
+    printf("Ingrese el número de la orden de trabajo que desea editar: ");
+    scanf("%d", &numero);
+
+    int indice = -1;
+    for (int i = 0; i < numOrdenes; i++) {
+        if (ordenes[i].numero == numero) {
+            indice = i;
+            break;
+        }
+    }
+
+    if (indice == -1) {
+        printf("Error: Número de orden de trabajo inválido.\n");
+        return;
+    }
+
+    struct OrdenTrabajo *orden = &ordenes[indice];
+
+    printf("Fecha (YYYY-MM-DD) [%s]: ", orden->fecha);
+    scanf("%s", orden->fecha);
+    printf("Tipo de trabajo [%s]: ", orden->tipoTrabajo);
+    scanf("%s", orden->tipoTrabajo);
+    printf("Costo de servicio [%.2f]: ", orden->costoServicio);
+    scanf("%f", &orden->costoServicio);
+
+    printf("Orden de trabajo actualizada con éxito.\n");
+    guardarOrdenes();
+}
