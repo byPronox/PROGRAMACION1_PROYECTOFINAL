@@ -53,3 +53,25 @@ void cargarOrdenes() {
 
     fclose(archivo);
 }
+
+void agregarOrden() {
+    if (numOrdenes == MAX_ORDERS) {
+        printf("Error: No se pueden agregar más órdenes de trabajo.\n");
+        return;
+    }
+
+    struct OrdenTrabajo nuevaOrden;
+    printf("Número de orden: ");
+    scanf("%d", &nuevaOrden.numero);
+    printf("Fecha (YYYY-MM-DD): ");
+    scanf("%s", nuevaOrden.fecha);
+    printf("Tipo de trabajo: ");
+    scanf("%s", nuevaOrden.tipoTrabajo);
+    printf("Costo de servicio: ");
+    scanf("%f", &nuevaOrden.costoServicio);
+
+    ordenes[numOrdenes++] = nuevaOrden;
+
+    printf("Orden de trabajo agregada con éxito.\n");
+    guardarOrdenes();
+}
