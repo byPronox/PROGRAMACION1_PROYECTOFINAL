@@ -96,4 +96,31 @@ void obtenerFechaHoraActual(char fechaHora[]) {
     strftime(fechaHora, 20, "%d/%m/%Y %H:%M:%S", tiempoLocal);
 }
 
+int main() {
+    FILE* archivo;
 
+ 
+
+    if ((archivo = fopen("datos.txt", "r")) == NULL) {
+        if ((archivo = fopen("datos.txt", "w")) == NULL) {
+            printf("No se pudo abrir o crear el archivo datos.txt.\n");
+            return 1;
+        }
+    }
+
+ 
+
+    fclose(archivo);
+
+ 
+
+    archivo = fopen("datos.txt", "a+");
+    if (archivo == NULL) {
+        printf("No se pudo abrir o crear el archivo datos.txt.\n");
+        return 1;
+    }
+
+
+    fclose(archivo);
+    return 0;
+}
